@@ -1,24 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
 export default function LoggedIn() {
   const { user, login, getUserOrganizations } = useKindeAuth();
   const requiredOrgCode = import.meta.env.VITE_KINDE_PLATFORM_ORG_CODE;
+  const [isCheckingAccess, setIsCheckingAccess] = useState(true);
 
   useEffect(() => {
     const checkOrgAccess = async () => {
       const userOrgs = await getUserOrganizations();
 
-      // Check if user has access to the required organization
-      if (userOrgs === null || !userOrgs.includes(requiredOrgCode)) {
-        // Redirect to login with the specific org code
+      if (!userOrgs || !userOrgs.includes(requiredOrgCode)) {
+        // Redirect to login if not part of the required org
         login({ orgCode: requiredOrgCode });
+        return;
       }
+
+      // Org check passed, allow rendering
+      setIsCheckingAccess(false);
     };
 
     checkOrgAccess();
-  }, [getUserOrganizations, requiredOrgCode]);
+  }, [getUserOrganizations, requiredOrgCode, login]);
+
+  if (isCheckingAccess) {
+    // Optionally render a spinner or just return null
+    return <p>Checking access...</p>;
+  }
 
   return (
     <>
@@ -60,16 +69,10 @@ export default function LoggedIn() {
             <div className="button-group">
               <button
                 className="btn btn-primary"
-                onClick={() => { window.open('https://backoffice.abdelrahmanzaki.com', '_blank') }}
+                onClick={() => window.open("https://backoffice.abdelrahmanzaki.com", "_blank")}
               >
                 Switch to Backoffice
               </button>
-
-              {/* <button
-                className="btn btn-outline"
-              >
-                Switch to Platform
-              </button> */}
             </div>
           </div>
           <section className="next-steps-section">
