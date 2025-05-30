@@ -44,6 +44,7 @@ export default function LoggedIn() {
             <div className="button-group">
               <button
                 className="btn btn-primary"
+                onClick={() => window.open('https://backoffice.abdelrahmanzaki.com', '_blank')}
               >
                 Switch to Backoffice
               </button>
