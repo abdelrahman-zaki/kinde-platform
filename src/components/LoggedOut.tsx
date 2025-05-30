@@ -12,16 +12,16 @@ export default function LoggedOut() {
           <div>
             <LoginLink
               className="btn btn-ghost sign-in-btn"
-              orgCode={process.env.VITE_KINDE_PLATFORM_ORG_CODE}
-              connectionId={process.env.VITE_KINDE_CONNECTION_ID}
+              orgCode={import.meta.env.VITE_KINDE_PLATFORM_ORG_CODE}
+              connectionId={import.meta.env.VITE_KINDE_CONNECTION_ID}
             >
               Sign in
             </LoginLink>
 
             <RegisterLink
               className="btn btn-dark"
-              orgCode={process.env.VITE_KINDE_PLATFORM_ORG_CODE}
-              connectionId={process.env.VITE_KINDE_CONNECTION_ID}
+              orgCode={import.meta.env.VITE_KINDE_PLATFORM_ORG_CODE}
+              connectionId={import.meta.env.VITE_KINDE_CONNECTION_ID}
             >
               Sign up
             </RegisterLink>
