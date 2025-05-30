@@ -2,7 +2,7 @@ import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
 export default function LoggedIn() {
-  const { user } = useKindeAuth();
+  const { user, getOrganization } = useKindeAuth();
 
   return (
     <>
@@ -37,7 +37,7 @@ export default function LoggedIn() {
           <div className="card start-hero">
             <p className="text-body-2 start-hero-intro">Woohoo!</p>
             <p className="text-display-2">
-              Your authentication is all sorted.
+              Your authentication is all sorted in {getOrganization()}.
               <br />
               Build the important stuff.
             </p>

@@ -10,8 +10,21 @@ export default function LoggedOut() {
         <nav className="nav container">
           <h1 className="text-display-3">KindeAuth</h1>
           <div>
-            <LoginLink className="btn btn-ghost sign-in-btn">Sign in</LoginLink>
-            <RegisterLink className="btn btn-dark">Sign up</RegisterLink>
+            <LoginLink
+              className="btn btn-ghost sign-in-btn"
+              orgCode={process.env.VITE_KINDE_PLATFORM_ORG_CODE}
+              connectionId={process.env.VITE_KINDE_CONNECTION_ID}
+            >
+              Sign in
+            </LoginLink>
+
+            <RegisterLink
+              className="btn btn-dark"
+              orgCode={process.env.VITE_KINDE_PLATFORM_ORG_CODE}
+              connectionId={process.env.VITE_KINDE_CONNECTION_ID}
+            >
+              Sign up
+            </RegisterLink>
           </div>
         </nav>
       </header>
