@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
 export default function LoggedIn() {
-  const { user, login, getOrganization } = useKindeAuth();
-  const [currentOrg, setCurrentOrg] = useState("");
+  const { user, login, getUserOrganizations } = useKindeAuth();
+  const requiredOrgCode = import.meta.env.VITE_KINDE_PLATFORM_ORG_CODE;
 
   useEffect(() => {
-    const fetchOrg = async () => {
-      const org = await getOrganization();
-      setCurrentOrg(org ?? "None");
+    const checkOrgAccess = async () => {
+      const userOrgs = await getUserOrganizations();
+
+      // Check if user has access to the required organization
+      if (userOrgs === null || !userOrgs.includes(requiredOrgCode)) {
+        // Redirect to login with the specific org code
+        login({ orgCode: requiredOrgCode });
+      }
     };
-    fetchOrg();
-  }, [getOrganization]);
+
+    checkOrgAccess();
+  }, [getUserOrganizations, requiredOrgCode]);
 
   return (
     <>
@@ -47,24 +53,14 @@ export default function LoggedIn() {
           <div className="card start-hero">
             <p className="text-body-2 start-hero-intro">Woohoo!</p>
             <p className="text-display-2">
-              Your authentication is all sorted in {currentOrg}.
+              Your authentication is all sorted.
               <br />
               Build the important stuff.
             </p>
             <div className="button-group">
               <button
                 className="btn btn-primary"
-                onClick={() => {
-                  window.open(
-                    'https://backoffice.abdelrahmanzaki.com',
-                    '_blank'
-                  )
-                  login({
-                    orgCode: import.meta.env.VITE_KINDE_BACKOFFICE_ORG_CODE,
-                    connectionId: import.meta.env.VITE_KINDE_CONNECTION_ID,
-                    loginHint: user?.email,
-                  })
-                }}
+                onClick={() => { window.open('https://backoffice.abdelrahmanzaki.com', '_blank') }}
               >
                 Switch to Backoffice
               </button>
