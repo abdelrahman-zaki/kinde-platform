@@ -1,9 +1,9 @@
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
-export default function LoggedIn() {
+export default async function LoggedIn() {
   const { user, getOrganization } = useKindeAuth();
-  const currentOrg = getOrganization();
+  const currentOrg = await getOrganization();
 
   return (
     <>
