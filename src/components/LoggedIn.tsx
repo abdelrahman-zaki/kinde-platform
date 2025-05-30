@@ -1,9 +1,18 @@
+import { useEffect, useState } from "react";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
-export default async function LoggedIn() {
+export default function LoggedIn() {
   const { user, getOrganization } = useKindeAuth();
-  const currentOrg = await getOrganization();
+  const [currentOrg, setCurrentOrg] = useState("");
+
+  useEffect(() => {
+    const fetchOrg = async () => {
+      const org = await getOrganization();
+      setCurrentOrg(org ?? "None");
+    };
+    fetchOrg();
+  }, [getOrganization]);
 
   return (
     <>
