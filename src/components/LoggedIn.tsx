@@ -3,7 +3,7 @@ import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-react/components";
 
 export default function LoggedIn() {
-  const { user, getOrganization } = useKindeAuth();
+  const { user, login, getOrganization } = useKindeAuth();
   const [currentOrg, setCurrentOrg] = useState("");
 
   useEffect(() => {
@@ -54,7 +54,17 @@ export default function LoggedIn() {
             <div className="button-group">
               <button
                 className="btn btn-primary"
-                onClick={() => window.open('https://backoffice.abdelrahmanzaki.com', '_blank')}
+                onClick={() => {
+                  window.open(
+                    'https://backoffice.abdelrahmanzaki.com',
+                    '_blank'
+                  )
+                  login({
+                    orgCode: import.meta.env.VITE_KINDE_BACKOFFICE_ORG_CODE,
+                    connectionId: import.meta.env.VITE_KINDE_CONNECTION_ID,
+                    loginHint: user?.email,
+                  })
+                }}
               >
                 Switch to Backoffice
               </button>
